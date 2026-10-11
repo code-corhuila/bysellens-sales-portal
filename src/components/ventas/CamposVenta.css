@@ -1,0 +1,198 @@
+/* Extra?do de Ventas.css original: se conservan reglas y valores. */
+.venta-section {
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #ead7df;
+}
+.venta-section:last-of-type {
+  margin-bottom: 0;
+}
+.venta-section-title {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 20px;
+}
+.venta-section-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fbe3ec;
+  color: #d15882;
+}
+.venta-section-icon ion-icon {
+  font-size: 20px;
+}
+.venta-section-title h3 {
+  margin: 0 0 4px;
+  color: #3c3239;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 21px;
+  font-weight: 700;
+}
+.venta-section-title p {
+  margin: 0;
+  color: #967f89;
+  font-size: 12px;
+}
+.venta-field {
+  width: 100%;
+  margin-top: 5px;
+}
+.venta-field label, .venta-product-select label, .venta-quantity label {
+  display: block;
+  margin-bottom: 7px;
+  color: #40353c;
+  font-size: 12px;
+  font-weight: 700;
+}
+.venta-field label span {
+  color: #d15882;
+}
+.venta-field select, .venta-product-select select {
+  width: 100%;
+  height: 48px;
+  padding: 0 42px 0 14px;
+  border: 1px solid #e6ccd7;
+  border-radius: 10px;
+  outline: none;
+  background-color: white;
+  color: #493b43;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient( 45deg, transparent 50%, #bd6686 50% ), linear-gradient( 135deg, #bd6686 50%, transparent 50% );
+  background-position: calc(100% - 18px) 20px, calc(100% - 13px) 20px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.venta-field select:hover, .venta-product-select select:hover {
+  border-color: #d9a0b6;
+}
+.venta-field select:focus, .venta-product-select select:focus {
+  border-color: #d45f8b;
+  box-shadow: 0 0 0 3px rgba(212, 95, 139, 0.08);
+}
+.venta-products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.venta-product-row {
+  width: 100%;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 70px 90px 38px;
+  gap: 12px;
+  align-items: end;
+  border: 1px solid #e8cfd9;
+  border-radius: 12px;
+  background: white;
+}
+.venta-product-select {
+  min-width: 0;
+}
+.venta-product-select select {
+  height: 46px;
+  font-size: 11px;
+  text-overflow: ellipsis;
+}
+.venta-quantity input {
+  width: 100%;
+  height: 46px;
+  padding: 0 8px;
+  border: 1px solid #e6ccd7;
+  border-radius: 10px;
+  outline: none;
+  background: white;
+  color: #453840;
+  font-size: 13px;
+  text-align: center;
+}
+.venta-quantity input:focus {
+  border-color: #d45f8b;
+  box-shadow: 0 0 0 3px rgba(212, 95, 139, 0.08);
+}
+.venta-product-total {
+  height: 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.venta-product-total span {
+  margin-bottom: 3px;
+  color: #a18b94;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.venta-product-total strong {
+  color: #44373e;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 12px;
+}
+.venta-remove-product {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ebccd7;
+  border-radius: 9px;
+  background: white;
+  color: #c9577d;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.venta-remove-product:hover {
+  background: #fff0f5;
+  border-color: #dca1b7;
+}
+.venta-remove-product ion-icon {
+  font-size: 17px;
+}
+.venta-add-product {
+  width: 100%;
+  height: 45px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px dashed #dda5bb;
+  border-radius: 10px;
+  background: #fff8fb;
+  color: #c6537d;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.venta-add-product:hover {
+  background: #fff0f5;
+  border-color: #cf88a5;
+}
+.venta-add-product ion-icon {
+  font-size: 16px;
+}
+@media (max-width: 550px) {
+  .venta-product-row {
+    grid-template-columns: minmax(0, 1fr) 65px 38px;
+  }
+  .venta-product-total {
+    grid-column: 1 / 3;
+    height: auto;
+    padding-top: 2px;
+  }
+  .venta-remove-product {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
