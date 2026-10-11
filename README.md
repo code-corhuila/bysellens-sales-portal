@@ -9,8 +9,8 @@ Documentación del proyecto: [`bysellens-docs`](https://github.com/code-corhuila
 
 Reutiliza la configuración de `apps/sales/` y `@bysellens/frontend-core@1.0.0`.
 Incluye login y sesión compartidos, React + Ionic, Vite y configuración Docker.
-La entrada de Ventas es temporal: registro, historial, catálogos y stock MOCK
-se incorporarán en incrementos posteriores conservando el código original.
+La entrada de Ventas es temporal; la pantalla original se integrará en incrementos
+posteriores. Los servicios y catálogos MOCK están disponibles desde el segundo PR.
 
 ```sh
 npm ci
@@ -38,7 +38,7 @@ El archivo `vendor/bysellens-frontend-core-1.0.0.tgz` procede del portal origina
 Se versiona para permitir `npm ci` sin rutas externas; el lockfile verifica su
 integridad. No se publica en npm ni se duplica el código compartido en `src`.
 
-Pendientes: adaptadores y pruebas de Ventas; migración funcional de las pantallas
+Pendiente: migración funcional de las pantallas
 y estilos originales en PR de máximo 400 líneas computables.
 HU oficial pendiente de identificar; las reglas consultadas de develop no exigen
 una HU para abrir el PR. No se asigna una HU inventada.
@@ -81,8 +81,8 @@ Límite del curso: 400 líneas modificadas, excluyendo pruebas y archivos genera
 
 ## Siguientes incrementos
 
-1. Adaptadores propios: `ventaService.ts`, `catalogoService.ts`, `mock.ts` y pruebas
-   de totales, cantidades, errores y descuento atómico de stock.
+1. Completado en el segundo incremento: adaptadores propios y pruebas de totales,
+   cantidades, errores, contratos HTTP y descuento atómico de stock.
 2. Extraer del original componentes funcionales con sus estilos: resumen e historial,
    selección de cliente, líneas de productos, pago y formulario. Cada incremento
    debe ser compilable y probado; mantener la entrada temporal hasta integrar la página.
@@ -91,3 +91,29 @@ Límite del curso: 400 líneas modificadas, excluyendo pruebas y archivos genera
 `Ventas.tsx` tiene 1501 líneas y `Ventas.css` 1726: no caben juntos en un PR.
 La extracción se organizará por responsabilidades y sus pruebas, no por cortes de
 líneas; cada PR debe medir como máximo 400 líneas computables antes de publicarse.
+
+## Segundo incremento: servicios de Ventas
+
+Se reutilizan sin cambios `ventaService.ts`, `catalogoService.ts`, `mock.ts` y la
+prueba `dominio.test.ts` de `apps/sales/src/services/`. No se importan servicios de
+Customer, Product ni Inventory. Los modelos y datos sintéticos siguen procediendo
+de `@bysellens/frontend-core@1.0.0`, cuyo archivo versionado permanece intacto.
+
+- MOCK permite listar, buscar y registrar ventas, calcular subtotales y total,
+  validar cantidades enteras positivas, registros activos y stock acumulado.
+- El registro persiste la venta y descuenta existencias después de validar todas
+  las líneas. Los errores conservan el formato `{ error, mensaje }` del adaptador.
+- El catálogo excluye productos inactivos y devuelve los clientes sin filtrar,
+  igual que el original; el filtrado de clientes activos corresponde a la pantalla.
+- Se conserva el tratamiento original de líneas repetidas: se suman para validar
+  stock, aunque la pantalla original las rechaza antes de enviar la solicitud.
+- REAL conserva GET `/api/ventas`, GET `/api/ventas/{id}`, POST `/api/ventas`,
+  GET `/api/clientes` y GET `/api/productos`; precios y totales vienen del servidor.
+
+`mock.test.ts` verifica importes, historial, instantáneas, IDs, cantidades inválidas,
+stock agotado, líneas repetidas y ausencia de escrituras parciales. `contratos.test.ts`
+verifica rutas, payload, token y propagación de errores con un transporte Axios
+simulado: estas pruebas no acreditan conexión a un backend REAL.
+
+La entrada visual sigue siendo temporal; registrar ventas desde la UI y sus pruebas
+funcionales de extremo a extremo quedan para los incrementos de pantallas.
