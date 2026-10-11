@@ -21,7 +21,7 @@ it('muestra cantidades y suma todos los importes del historial', () => {
   expect(screen.getByText('2')).toBeTruthy();
   expect(screen.getByText('3')).toBeTruthy();
 });
-it('admite el cat?logo y el historial vac?os', () => {
+it('admite el catálogo y el historial vacíos', () => {
   render(<ResumenVentas ventas={[]} cantidadClientes={0} formatoPrecio={valor => valor + ' COP'} />);
   expect(screen.getByText('0 COP')).toBeTruthy();
   expect(screen.getAllByText('0')).toHaveLength(2);

@@ -43,7 +43,7 @@ export function useVentas() {
       setProductos(productosData);
     } catch (err) {
       console.error(err);
-      setError('No fue posible cargar la informaci?n de ventas.');
+      setError('No fue posible cargar la información de ventas.');
     } finally { setCargando(false); }
   }, []);
   useEffect(() => { void cargarDatos(); }, [cargarDatos]);
@@ -78,7 +78,7 @@ export function useVentas() {
     total + (productos.find(producto => producto.id === detalle.productoId)?.precioVenta || 0) *
     detalle.cantidad, 0), [detalles, productos]);
 
-  // ===== VALIDACI?N Y REGISTRO =====
+  // ===== VALIDACIÓN Y REGISTRO =====
   const guardarVenta = async () => {
     if (guardando) return;
     setMensajeFormulario('');
@@ -102,7 +102,7 @@ export function useVentas() {
         return;
       }
       if (!producto.activo) {
-        setMensajeFormulario(`El producto "${producto.nombre}" est? inactivo.`);
+        setMensajeFormulario(`El producto "${producto.nombre}" está inactivo.`);
         return;
       }
       if (!Number.isInteger(detalle.cantidad) || detalle.cantidad < 1) {

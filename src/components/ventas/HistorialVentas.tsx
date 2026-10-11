@@ -32,7 +32,7 @@ const HistorialVentas: React.FC<Propiedades> = ({
       <div className="ventas-search">
         <IonIcon icon={searchOutline} />
         <input value={busqueda} onChange={e => setBusqueda(e.target.value)}
-          aria-label="Buscar ventas" placeholder="Buscar por cliente, m?todo de pago o ID..." />
+          aria-label="Buscar ventas" placeholder="Buscar por cliente, método de pago o ID..." />
       </div>
       {cargando && <div className="ventas-message">Cargando ventas...</div>}
       {!cargando && error && <div className="ventas-message ventas-error">{error}</div>}
@@ -40,7 +40,7 @@ const HistorialVentas: React.FC<Propiedades> = ({
         <div className="ventas-table-wrapper">
           <table className="ventas-table">
             <thead><tr>
-              <th>ID</th><th>Fecha</th><th>Cliente</th><th>Productos</th><th>Total</th><th>M?todo de pago</th>
+              <th>ID</th><th>Fecha</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Método de pago</th>
             </tr></thead>
             <tbody>{ventasFiltradas.map(venta => (
               <tr key={venta.id}>
