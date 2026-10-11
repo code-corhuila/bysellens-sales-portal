@@ -56,7 +56,7 @@ const CamposVenta: React.FC<Propiedades> = ({
                   <option value="">Seleccionar producto</option>
                   {productos.filter(item => item.activo && item.stock > 0).map(item => (
                     <option key={item.id} value={item.id}>
-                      {item.nombre}{' ? '}{formatoPrecio(item.precioVenta)}{' ? Stock: '}{item.stock}
+                      {item.nombre}{' · '}{formatoPrecio(item.precioVenta)}{' · Stock: '}{item.stock}
                     </option>
                   ))}
                 </select>
@@ -85,7 +85,7 @@ const CamposVenta: React.FC<Propiedades> = ({
     <section className="venta-section">
       <div className="venta-section-title">
         <div className="venta-section-icon"><IonIcon icon={cardOutline} /></div>
-        <div><h3>M?todo de pago</h3><p>Selecciona c?mo se realiz? el pago.</p></div>
+        <div><h3>Método de pago</h3><p>Selecciona cómo se realizó el pago.</p></div>
       </div>
       <div className="venta-field">
         <label htmlFor="venta-pago">Forma de pago <span>*</span></label>

@@ -17,7 +17,7 @@ it.each(['  luisa  ', 'NEQUI', '25'])('filtra por %s sin cambiar el contador ori
   expect(screen.queryByText('Ana Demo')).toBeNull();
   expect(screen.getByText('2 ventas registradas')).toBeTruthy();
 });
-it('limpia la b?squeda y vuelve a mostrar todos los registros', () => {
+it('limpia la búsqueda y vuelve a mostrar todos los registros', () => {
   render(<HistorialVentas {...propiedades()} />);
   fireEvent.change(screen.getByRole('textbox'), { target: { value: 'inexistente' } });
   expect(screen.queryByRole('table')).toBeNull();

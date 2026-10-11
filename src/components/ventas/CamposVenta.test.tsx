@@ -22,7 +22,7 @@ it('ofrece clientes activos y productos activos con existencias', () => {
   expect(screen.getByText('36000 COP')).toBeTruthy();
   expect(screen.getByLabelText('Cant.').getAttribute('max')).toBe('20');
 });
-it('notifica selecciones, cantidades y operaciones de l?neas', () => {
+it('notifica selecciones, cantidades y operaciones de líneas', () => {
   const props = propiedades();
   render(<CamposVenta {...props} />);
   fireEvent.change(screen.getByLabelText('Cliente *'), { target: { value: '1' } });
@@ -38,7 +38,7 @@ it('notifica selecciones, cantidades y operaciones de l?neas', () => {
   expect(props.eliminarProducto).toHaveBeenCalledWith(0);
   expect(props.agregarProducto).toHaveBeenCalledTimes(1);
 });
-it('conserva los cinco medios de pago y admite cat?logos vac?os', () => {
+it('conserva los cinco medios de pago y admite catálogos vacíos', () => {
   render(<CamposVenta {...propiedades()} clientes={[]} productos={[]} />);
   expect(within(screen.getByLabelText('Forma de pago *')).getAllByRole('option')).toHaveLength(5);
   expect(screen.getByText('0 COP')).toBeTruthy();
