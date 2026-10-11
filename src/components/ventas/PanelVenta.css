@@ -1,0 +1,213 @@
+/* Extra?do de Ventas.css original: se conservan reglas y valores. */
+.venta-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(45, 35, 41, 0.35);
+  backdrop-filter: blur(1.5px);
+}
+.venta-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+.venta-modal-panel {
+  position: relative;
+  z-index: 2;
+  width: min(650px, 100vw);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fffafb;
+  box-shadow: -15px 0 40px rgba(40, 25, 32, 0.12);
+  animation: ventaPanelIn 0.25s ease-out;
+}
+@keyframes ventaPanelIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.venta-form-header {
+  flex-shrink: 0;
+  padding: 30px 34px 26px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+  border-bottom: 1px solid #ecd6df;
+  background: #fffafb;
+}
+.venta-form-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #b95e7f;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+.venta-form-header h2 {
+  margin: 0 0 7px;
+  color: #312a31;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 35px;
+  line-height: 1.1;
+}
+.venta-form-header p {
+  margin: 0;
+  color: #927d87;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.venta-close-button {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e8cbd6;
+  border-radius: 50%;
+  background: white;
+  color: #cb5b82;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.venta-close-button:hover {
+  background: #fff1f6;
+  border-color: #d998af;
+}
+.venta-close-button ion-icon {
+  font-size: 21px;
+}
+.venta-form-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 28px 34px 35px;
+  scrollbar-width: thin;
+  scrollbar-color: #e1afc2 transparent;
+}
+.venta-form-content::-webkit-scrollbar {
+  width: 6px;
+}
+.venta-form-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.venta-form-content::-webkit-scrollbar-thumb {
+  background: #e1afc2;
+  border-radius: 20px;
+}
+.venta-summary {
+  width: 100%;
+  margin-top: 24px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e6c4d2;
+  border-radius: 12px;
+  background: #fff1f6;
+}
+.venta-summary span {
+  color: #775e69;
+  font-size: 13px;
+  font-weight: 700;
+}
+.venta-summary strong {
+  color: #c34e78;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 23px;
+}
+.venta-form-error {
+  margin-top: 15px;
+  padding: 12px 14px;
+  border: 1px solid #efc4ca;
+  border-radius: 9px;
+  background: #fff2f3;
+  color: #bd4f5b;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.venta-form-footer {
+  flex-shrink: 0;
+  padding: 18px 34px 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  border-top: 1px solid #ead5de;
+  background: #fffafb;
+  box-shadow: 0 -8px 22px rgba(70, 40, 52, 0.035);
+}
+.venta-button {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.venta-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.venta-button-secondary {
+  border: 1px solid #e5c6d2;
+  background: white;
+  color: #725d67;
+}
+.venta-button-secondary:hover:not(:disabled) {
+  background: #fff4f8;
+  border-color: #dca2b8;
+}
+.venta-button-primary {
+  border: 1px solid var(--ventas-primary);
+  background: var(--ventas-primary);
+  color: white;
+  box-shadow: 0 9px 20px rgba(212, 95, 139, 0.16);
+}
+.venta-button-primary:hover:not(:disabled) {
+  background: var(--ventas-primary-dark);
+  transform: translateY(-1px);
+}
+.venta-button ion-icon {
+  font-size: 17px;
+}
+@media (max-width: 760px) {
+  .venta-modal-panel {
+    width: 100%;
+  }
+  .venta-form-header {
+    padding: 25px 22px;
+  }
+  .venta-form-content {
+    padding: 25px 22px 30px;
+  }
+  .venta-form-footer {
+    padding: 14px 22px 18px;
+  }
+}
+@media (max-width: 550px) {
+  .venta-form-header h2 {
+    font-size: 30px;
+  }
+  .venta-form-footer {
+    grid-template-columns: 1fr;
+  }
+}
