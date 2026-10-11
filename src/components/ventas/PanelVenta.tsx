@@ -23,9 +23,9 @@ const PanelVenta: React.FC<Propiedades> = ({
       <aside className="venta-modal-panel" role="dialog" aria-modal="true" aria-labelledby="titulo-nueva-venta">
         <div className="venta-form-header">
           <div>
-            <span className="venta-form-eyebrow">P?TALOS ADMIN</span>
+            <span className="venta-form-eyebrow">PÉTALOS ADMIN</span>
             <h2 id="titulo-nueva-venta">Nueva venta</h2>
-            <p>Registra los productos vendidos y el m?todo de pago.</p>
+            <p>Registra los productos vendidos y el método de pago.</p>
           </div>
           <button className="venta-close-button" onClick={cerrar} disabled={guardando} aria-label="Cerrar formulario">
             <IonIcon icon={closeOutline} />

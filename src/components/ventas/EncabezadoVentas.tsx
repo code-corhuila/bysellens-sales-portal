@@ -7,7 +7,7 @@ interface Propiedades { abrirFormulario: () => void }
 const EncabezadoVentas: React.FC<Propiedades> = ({ abrirFormulario }) => (
   <header className="ventas-header">
     <div>
-      <span className="ventas-eyebrow">P?TALOS ADMIN</span>
+      <span className="ventas-eyebrow">PÉTALOS ADMIN</span>
       <h1>Ventas</h1>
       <p>Registra y consulta las ventas realizadas en tu tienda.</p>
     </div>
