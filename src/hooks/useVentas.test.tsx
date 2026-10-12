@@ -33,9 +33,9 @@ function preparar(vista: Awaited<ReturnType<typeof cargar>>) {
 }
 
 it('carga los tres recursos y permite reintentar una carga fallida', async () => {
-  vi.mocked(obtenerVentas).mockRejectedValueOnce(new Error('Sin conexi?n'));
+  vi.mocked(obtenerVentas).mockRejectedValueOnce(new Error('Sin conexión'));
   const vista = await cargar();
-  expect(vista.result.current.error).toBe('No fue posible cargar la informaci?n de ventas.');
+  expect(vista.result.current.error).toBe('No fue posible cargar la información de ventas.');
   await act(async () => { await vista.result.current.cargarDatos(); });
   expect(vista.result.current.error).toBe('');
   expect(vista.result.current.ventas).toHaveLength(1);
@@ -55,7 +55,7 @@ it('reinicia el formulario y calcula el total y formato COP', async () => {
     detalles: [{ productoId: 0, cantidad: 1 }], mostrarFormulario: true,
   });
 });
-it('conserva el m?nimo y el l?mite de stock al cambiar cantidades', async () => {
+it('conserva el mínimo y el límite de stock al cambiar cantidades', async () => {
   const vista = await cargar();
   preparar(vista);
   act(() => vista.result.current.cambiarCantidad(0, 99));
@@ -63,7 +63,7 @@ it('conserva el m?nimo y el l?mite de stock al cambiar cantidades', async () => 
   act(() => vista.result.current.cambiarCantidad(0, NaN));
   expect(vista.result.current.detalles[0].cantidad).toBe(1);
 });
-it('agrega y elimina l?neas manteniendo al menos una vac?a', async () => {
+it('agrega y elimina líneas manteniendo al menos una vacía', async () => {
   const vista = await cargar();
   preparar(vista);
   act(() => vista.result.current.agregarProducto());
@@ -121,7 +121,7 @@ it('valida el stock al cambiar a otro producto con menos existencias', async () 
   expect(vista.result.current.mensajeFormulario).toContain('Stock insuficiente');
   expect(crearVenta).not.toHaveBeenCalled();
 });
-it('registra el contrato m?nimo, a?ade la venta y recarga el stock', async () => {
+it('registra el contrato mínimo, añade la venta y recarga el stock', async () => {
   const vista = await cargar();
   preparar(vista);
   act(() => vista.result.current.agregarProducto());
@@ -137,7 +137,7 @@ it('registra el contrato m?nimo, a?ade la venta y recarga el stock', async () =>
 it('mantiene la venta registrada si falla la recarga de productos', async () => {
   const vista = await cargar();
   preparar(vista);
-  vi.mocked(obtenerProductos).mockRejectedValueOnce(new Error('Sin conexi?n'));
+  vi.mocked(obtenerProductos).mockRejectedValueOnce(new Error('Sin conexión'));
   await act(async () => { await vista.result.current.guardarVenta(); });
   expect(vista.result.current.ventas).toHaveLength(2);
   expect(vista.result.current.mostrarFormulario).toBe(false);
@@ -145,7 +145,7 @@ it('mantiene la venta registrada si falla la recarga de productos', async () => 
 });
 it.each([
   { datos: { mensaje: 'Stock actualizado' }, texto: 'Stock actualizado' },
-  { datos: { errores: { cantidad: 'Cantidad inv?lida' } }, texto: 'Cantidad inv?lida' },
+  { datos: { errores: { cantidad: 'Cantidad inválida' } }, texto: 'Cantidad inválida' },
   { datos: { message: 'Error legado' }, texto: 'Error legado' },
   { datos: { error: 'Regla de negocio' }, texto: 'Regla de negocio' },
 ])('muestra los detalles del error $texto y conserva el formulario', async ({ datos, texto }) => {
@@ -158,7 +158,7 @@ it.each([
   expect(vista.result.current.guardando).toBe(false);
   expect(vista.result.current.ventas).toHaveLength(1);
 });
-it('impide cerrar y reenviar mientras el registro est? pendiente', async () => {
+it('impide cerrar y reenviar mientras el registro está pendiente', async () => {
   const vista = await cargar();
   preparar(vista);
   let resolver!: (venta: ReturnType<typeof inicial>['ventas'][number]) => void;

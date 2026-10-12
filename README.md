@@ -1,16 +1,9 @@
-# bysellens-sales-portal
+# By_Sellens — Sales Portal
 
-> sales bounded context: web UI (remote)
+Portal independiente de Ventas, React 19 + Ionic 9 + TypeScript + Vite.
+Documentación del proyecto: [bysellens-docs](https://github.com/code-corhuila/bysellens-docs).
 
-Portal de Ventas de **By_Sellens**, sistema administrativo de una tienda de maquillaje.
-Documentación del proyecto: [`bysellens-docs`](https://github.com/code-corhuila/bysellens-docs).
-
-## Primer incremento
-
-Reutiliza la configuración de `apps/sales/` y `@bysellens/frontend-core@1.0.0`.
-Incluye login y sesión compartidos, React + Ionic, Vite y configuración Docker.
-La entrada de Ventas es temporal; la pantalla original se integrará en incrementos
-posteriores. Los servicios y catálogos MOCK están disponibles desde el segundo PR.
+## Ejecutar
 
 ```sh
 npm ci
@@ -18,102 +11,69 @@ npm run dev
 npm run test.unit
 npm run lint
 npm run build
-npm run test.e2e # con el portal activo en :5177
+npm run test.e2e # portal activo en :5177
 ```
 
-Acceso: `http://localhost:5177`. Demo MOCK: `admin@bysellens.com` / `demo123`.
-No necesita backend. `.env.example` documenta las variables; REAL requiere un
-backend y no se considera validado con las pruebas MOCK.
+Portal: http://localhost:5177. Demo MOCK: admin@bysellens.com / demo123.
+El modo predeterminado es MOCK y no necesita backend. Las ventas y existencias
+simuladas se guardan en localStorage; la sesión se guarda en sessionStorage.
+Para reiniciar la demostración, elimina la clave bysellens_mock_v1 de localStorage.
+
+## Pantalla migrada
+
+La ruta protegida /ventas reutiliza la pantalla de apps/sales/src/pages/Ventas.tsx,
+extraída por responsabilidades, con sus textos, clases y estilos originales:
+
+- EncabezadoVentas y ResumenVentas: cabecera y estadísticas del historial completo.
+- HistorialVentas: tabla, búsqueda por cliente/método/ID, carga, error y actualización.
+- CamposVenta: cliente, productos, cantidades, subtotales y cinco medios de pago.
+- PanelVenta: panel lateral, total, errores y controles de registro y cierre.
+- useVentas: carga, estado, validaciones, registro y recarga de stock.
+
+Se preservan los adaptadores propios de Sales: ventaService, catalogoService y mock.
+No se importan servicios internos de Customer, Inventory ni Product.
+Se corrigieron los errores de contrato al leer mensaje/errores del backend y
+se valida que las cantidades sean enteras antes de enviar el registro.
+Si la venta se registra y solo falla la recarga de productos, se conserva el
+historial y se registra una advertencia, como en el código original.
+
+## Docker y configuración
 
 ```sh
 docker build -t bysellens-sales-portal .
 docker run --rm -p 5177:80 bysellens-sales-portal
 ```
 
-Healthcheck: `/health`; rutas: `/login` y `/ventas`; recursos: `/mfe/sales/`.
-`DATA_MODE` y `API_BASE_URL` son argumentos de construcción de Docker, no
-configuración dinámica del contenedor. No deben contener secretos.
+Healthcheck: /health. Rutas: /login y /ventas. Recursos: /mfe/sales/.
+VITE_DATA_MODE y VITE_API_BASE_URL están documentadas en .env.example.
+Docker recibe DATA_MODE y API_BASE_URL al construir, no como configuración
+dinámica del contenedor. No deben contener secretos.
+El modo REAL se conserva, pero las pruebas de contrato usan transporte HTTP
+simulado y no acreditan conexión con un backend real.
 
-El archivo `vendor/bysellens-frontend-core-1.0.0.tgz` procede del portal original.
-Se versiona para permitir `npm ci` sin rutas externas; el lockfile verifica su
-integridad. No se publica en npm ni se duplica el código compartido en `src`.
+## Paquete compartido y pruebas
 
-Pendiente: migración funcional de las pantallas
-y estilos originales en PR de máximo 400 líneas computables.
-HU oficial pendiente de identificar; las reglas consultadas de develop no exigen
-una HU para abrir el PR. No se asigna una HU inventada.
+@bysellens/frontend-core@1.0.0 se consume desde vendor/bysellens-frontend-core-1.0.0.tgz,
+idéntico al paquete original. El lockfile comprueba su integridad; npm ci no
+depende de rutas externas. No se publica en npm ni se duplica su código en src.
+React e Ionic mantienen las versiones del origen.
 
-## Branching
+Vitest cubre servicios, contratos, sesión, componentes y lógica. Cypress cubre
+sesión, rutas protegidas, registro, búsquedas, validaciones, stock y móvil.
+En entornos con ELECTRON_RUN_AS_NODE, quitar esa variable solo del proceso
+de Cypress permite que Electron arranque como navegador.
+Avisos heredados: bundle principal mayor a 500 kB y 13 vulnerabilidades reportadas
+durante la instalación Docker anterior (9 moderadas, 4 altas); no se actualizaron
+dependencias durante la migración.
 
-Three permanent branches. **None of them accepts a direct commit** — you enter through a child
-branch and leave through a Pull Request.
+## Revisión y ramas
 
-```
-develop  <--PR--  feat/... fix/... chore/...
-qa       <--PR--  qa/...
-main     <--PR--  release/...  hotfix/...
-```
-
-Promotion happens **by re-application** (`git cherry-pick -x`), never by merging one permanent
-branch into another: `merge develop -> qa` and `merge qa -> main` do not exist in this model.
-
-`main` requires **1 approval from `ariel5253`**. On `develop` and `qa` the team sets its own review
-rule.
-
-Cada PR se dirige a `develop`, sin commits directos ni fusiones automáticas.
+Ramas permanentes: develop, qa y main. Ninguna recibe commits directos.
+Cada incremento se publica desde una rama hija mediante PR hacia develop.
 Límite del curso: 400 líneas modificadas, excluyendo pruebas y archivos generados.
-
-## Validación del primer incremento
-
-- `npm ci`, TypeScript, build y ESLint: correctos.
-- Vitest: 2 pruebas de sesión correctas; Cypress: 2 pruebas correctas contra Docker.
-- Docker: imagen construida, contenedor saludable y HTTP 200 en `/health`, `/`,
-  `/login`, `/ventas`, `/mfe/sales/` y `/mfe/sales/ventas`.
-- Cypress verifica login MOCK, recarga, cierre de sesión, rutas protegidas y errores,
-  y falla si la aplicación solicita el backend local. REAL no se ha probado.
-- En este entorno Windows se quitó `ELECTRON_RUN_AS_NODE` solo del proceso de
-  Cypress para permitir el arranque de Electron; no se alteró la configuración global.
-- React 19.0.0 e Ionic 9.0.1 deduplicados; integridad SHA-512 del paquete validada
-  contra el lockfile y SHA-256 idéntico al archivo original de Sales.
-- Avisos heredados: bundle principal superior a 500 kB y 13 vulnerabilidades
-  reportadas por npm durante Docker (9 moderadas, 4 altas). No se actualizaron
-  dependencias como parte de esta migración.
-
-## Siguientes incrementos
-
-1. Completado en el segundo incremento: adaptadores propios y pruebas de totales,
-   cantidades, errores, contratos HTTP y descuento atómico de stock.
-2. Extraer del original componentes funcionales con sus estilos: resumen e historial,
-   selección de cliente, líneas de productos, pago y formulario. Cada incremento
-   debe ser compilable y probado; mantener la entrada temporal hasta integrar la página.
-3. Integrar la pantalla original y verificar búsquedas, registro y recarga de stock.
-
-`Ventas.tsx` tiene 1501 líneas y `Ventas.css` 1726: no caben juntos en un PR.
-La extracción se organizará por responsabilidades y sus pruebas, no por cortes de
-líneas; cada PR debe medir como máximo 400 líneas computables antes de publicarse.
-
-## Segundo incremento: servicios de Ventas
-
-Se reutilizan sin cambios `ventaService.ts`, `catalogoService.ts`, `mock.ts` y la
-prueba `dominio.test.ts` de `apps/sales/src/services/`. No se importan servicios de
-Customer, Product ni Inventory. Los modelos y datos sintéticos siguen procediendo
-de `@bysellens/frontend-core@1.0.0`, cuyo archivo versionado permanece intacto.
-
-- MOCK permite listar, buscar y registrar ventas, calcular subtotales y total,
-  validar cantidades enteras positivas, registros activos y stock acumulado.
-- El registro persiste la venta y descuenta existencias después de validar todas
-  las líneas. Los errores conservan el formato `{ error, mensaje }` del adaptador.
-- El catálogo excluye productos inactivos y devuelve los clientes sin filtrar,
-  igual que el original; el filtrado de clientes activos corresponde a la pantalla.
-- Se conserva el tratamiento original de líneas repetidas: se suman para validar
-  stock, aunque la pantalla original las rechaza antes de enviar la solicitud.
-- REAL conserva GET `/api/ventas`, GET `/api/ventas/{id}`, POST `/api/ventas`,
-  GET `/api/clientes` y GET `/api/productos`; precios y totales vienen del servidor.
-
-`mock.test.ts` verifica importes, historial, instantáneas, IDs, cantidades inválidas,
-stock agotado, líneas repetidas y ausencia de escrituras parciales. `contratos.test.ts`
-verifica rutas, payload, token y propagación de errores con un transporte Axios
-simulado: estas pruebas no acreditan conexión a un backend REAL.
-
-La entrada visual sigue siendo temporal; registrar ventas desde la UI y sus pruebas
-funcionales de extremo a extremo quedan para los incrementos de pantallas.
+La promoción se hace por reaplicación (git cherry-pick -x), nunca fusionando ramas
+permanentes entre sí. main requiere una aprobación de ariel5253.
+No usar force push ni fusionar PR automáticamente.
+HU oficial pendiente de identificar; las reglas consultadas no impiden abrir
+el PR por ese motivo. No se inventan identificadores.
+La documentación de cada extracción está en docs/incremento-*.md.
